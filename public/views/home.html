@@ -1,0 +1,31 @@
+<body >
+<input type="search" ng-model="search" placeholder="Search...">
+
+<select ng-model="sortorder">
+  <option value="+name">Surname (A-Z)</option>
+  <option value="+cost">Surname (Z-A)</option>
+</select>
+<div ng-bind-html="allItems">
+<div ng-bind-html> {{item.description}}</div>
+</div>
+<!--  
+	<div class ="items"ng-repeat="item in allItems| filter:search|orderBy:sortorder" ng-bind-html="item.name" ng-bind-html="item.description" >
+	
+        
+       <pre ng-bind-html >
+        {{item.name}}
+        </pre>
+        
+       <p ng-bind-html> {{item.description}}</p>
+        <p ng-bind-html>
+        {{item.cost}}
+        </p>
+        <p ng-bind-html>
+        {{item.quantity}}
+        </p>
+        
+       
+       </div>
+       -->
+    </body>
+</html>
