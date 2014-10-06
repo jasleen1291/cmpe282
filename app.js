@@ -56,7 +56,7 @@ function calls(err, data) {
         console.log("err");
     } else if (data.TableNames.length > 0) {
     	startBatchWrite();
-    //	callback();
+  // callback();
     } else {
         var call = vogels.createTables({
             'catalog': {

@@ -14,15 +14,18 @@ var Cart = myApp.factory('Cart', function($resource) {
 });
 
 myApp.factory('CartService', function() {
+	console.log("hello");
 	return {
 		items : [],total:0
 	};
 });
 myApp.controller('addToCartController', function($scope, Cart,CartService) {
-	CartService.items = [];
+	
 	$scope.id = 1;
 	$scope.init = function() {
-
+		
+		if(CartService.items.length==0){
+			console.log("Called");
 		var menuItems = Cart.get({
 			id : $scope.id
 		}, function() {
@@ -45,7 +48,9 @@ myApp.controller('addToCartController', function($scope, Cart,CartService) {
 			$scope.cartItems = items;
 			CartService.items=items;
 		});
-
+		}else{
+			$scope.cartItems =CartService.items;
+		}
 	};
 	$scope.submitted = false;
 

@@ -40,7 +40,9 @@
 
 				<p>Price : ${{item.cost}}</p>
 				<p>Available quantity: {{item.quantity}}</p>
-				<p ng-click="alert(hi)">View Details</p>
+				 <div ng-controller="ViewItemController">
+				<p ng-click="toggle(item)">View Details</p>
+				</div>
 			</div>
 			<div style="float: right; width: 50%; padding: 0; margin: 0">
 				<form name="addToCart" novalidate ng-submit="add()"
@@ -69,6 +71,7 @@
 				<div class="clear"></div>
 			</div>
 
+		</div>
 		</div>
 </body>
 </html>

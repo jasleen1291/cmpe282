@@ -39,6 +39,9 @@ myApp.config([ '$routeProvider', '$locationProvider',
 			}).when('/user/signup', {
 				templateUrl : 'views/signup.html',
 				controller : 'SignupController'
+			}).when('/detail',{
+				templateUrl : 'views/detail.html',
+				controller : 'ViewController'
 			});
 			/* 
 			 
