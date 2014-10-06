@@ -1,16 +1,4 @@
 module.exports = function(app) {
-//var morgan = require('morgan');
-// We are going to protect /api routes with JWT
-var expressJwt = require('express-jwt');
-var jwt = require('jsonwebtoken');
-var secret = 'shhhhhhared-secret';
-var adminSecret='addddddddddminnnn-secret'
-app.use('/api', expressJwt({
-    secret: secret
-}));
-app.use('/admin/api', expressJwt({
-    secret: adminSecret
-}));
 app.get('/', function(req, res) {
    var cwd = process.cwd();
         var indexFile = cwd + "/public/views/a.html";
@@ -35,14 +23,12 @@ var profile;
 	        redirectUrl=""
 	        if(user.data.usertype==0)
 	        {	
-	        	redirectUrl="/user/profile"
+	        	redirectUrl="/"
 
-	        	var token = jwt.sign(profile, secret, {
-	            	expiresInMinutes: 60 * 5
-	        	});
+	        	
 	        
 		        res.json({
-		            token: token,
+		            
 		            redirectUrl:redirectUrl,
 		            data:profile
 		        });
@@ -50,12 +36,9 @@ var profile;
 	        }
 	        else{
 	        	redirectUrl="/admin/profile"
-	        	var token = jwt.sign(profile, adminSecret, {
-	            	expiresInMinutes: 60 * 5
-	        	});
-	        
+	        	
 		        res.json({
-		            token: token,
+		            
 		            redirectUrl:redirectUrl,
 		            data:profile
 		        });

@@ -34,6 +34,12 @@ controller('CatalogController',['$scope','Catalog','View','$location','$routePar
 		$scope.allItems=menu.Items;
 		
 		
+	} ,function(error){
+    if(error.status)
+    	{
+    	$location.path("/login");
+    	}
+        
 	});
 	
 }]);

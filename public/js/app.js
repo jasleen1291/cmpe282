@@ -27,6 +27,14 @@ myApp.config([ '$routeProvider', '$locationProvider',
 			$routeProvider
 
 			// home page
+			.when('/login',{
+				templateUrl:'views/login.html',
+				controller:'UserController'
+			})
+			.when('/signup',{
+				templateUrl:'views/signup.html',
+				controller:'SignupController'
+			})
 			.when('/', {
 				templateUrl : 'views/home.html',
 				controller : 'ViewAllController'

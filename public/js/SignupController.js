@@ -3,10 +3,22 @@ var app = angular.module('myControllers');
 
 
 app.controller('SignupController',
-function($scope,$routeParams) {
-console.log($scope);
+function($scope,$routeParams,$http,$location) {
 
-$scope.submitted = false; $scope.signupForm = function() { if ($scope.signup_form.$valid) {} else { $scope.signup_form.submitted = true; } }
+
+$scope.submitted = false; $scope.signupForm = function() { 
+	if ($scope.signup_form.$valid) {
+		var username=($scope.signup_form.email.$modelValue);
+	
+		var password=($scope.signup_form.password.$modelValue);
+		 $http.post('/signup', {username:username,password:password}).success(function(data, status, headers, config) {
+	            
+	            if(data.message==="Success")
+	            $location.path("/") ;
+	        }).error(function(data, status, headers, config) {
+	            alert("Something went wrong. try back later");
+	        });
+} else { $scope.signup_form.submitted = true; } }
 });
 /*
 var myApp = angular.module('myControllers', []);

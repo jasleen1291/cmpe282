@@ -6,12 +6,11 @@ myApp.controller('UserController', function($scope, $http, $window,$location,$ro
     $scope.submit = function() {
 
         $http.post('/authenticate', $scope.user).success(function(data, status, headers, config) {
-            $window.localStorage.token = data.token;
-            $window.sessionStorage.data=data.data;
-            $scope.message="welcome"
-            console.log("#"+data.redirectUrl);
-            console.log($location.path(data.redirectUrl)) ;
-            //$location.reload();
+            
+            $window.localStorage.data=JSON.stringify(data.data);
+            console.log(data.data);
+            //console.log("#"+data.redirectUrl);
+            $location.path(data.redirectUrl) ;
         }).error(function(data, status, headers, config) {
             // Erase the token if the user fails to log in
             delete $window.localStorage.token;
@@ -21,8 +20,23 @@ myApp.controller('UserController', function($scope, $http, $window,$location,$ro
     };
     $scope.logout = function() {
 
-            delete $window.localStorage.token;
-            $scope.message = 'You have successfully loggedout';
+            delete $window.localStorage.data;
+            
+            $location.path("/") ;
         
     };
+    $scope.profile = function() {
+
+        delete $window.localStorage.data;
+        
+        $location.path("/user/profile") ;
+    
+};
+$scope.signup = function() {
+
+    delete $window.localStorage.data;
+    
+    $location.path("/signup") ;
+
+};
 });

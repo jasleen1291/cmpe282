@@ -21,13 +21,13 @@ dyn = new AWS.DynamoDB({
 });
 var vogels = require('vogels');
 vogels.dynamoDriver(dyn);
-//Checking to see if tables exist
+// Checking to see if tables exist
 dyn.listTables(function(err, data) {
     console.log('listTables', err, data);
     
     calls(err, data);
 }, calls);
-/**ALL MY MODELS**/
+/** ALL MY MODELS* */
 var catalog = vogels.define('catalog', function(schema) {
     schema.String('name', {
         hashKey: true
@@ -55,7 +55,7 @@ function calls(err, data) {
     if (err) {
         console.log("err");
     } else if (data.TableNames.length > 0) {
-    	startBatchWrite();
+    startBatchWrite();
   // callback();
     } else {
         var call = vogels.createTables({
@@ -83,26 +83,34 @@ function calls(err, data) {
     }
 
 };
-//Defining my routes 
+// Defining my routes
+var User = require("./app/models/user");
 app.post("/signup", function(req, res) {
-    var items = []
-    var item = JSON.stringify(items);
-    var acc = new cart({
-        id: req.body.id,
-        items: item
-    });
-    acc.save(function(err) {
-        console.log('created account in DynamoDB');
-        if (err) {
-            res.send(err);
-        } else {
-            res.send({
-                message: "Success"
-            });
-        }
-    });
+var profile;
+User.signup(req.body, function(err, user) {
+// console.log("error"+err)
+if (err||err!==null) {
+     res.send(err);
+        return;
+    } else {
+       try{
+       var items = [];
+       var item = JSON.stringify(items);
+       var acc = new cart({ id: user.insertId, items: item });
+       acc.save(function(err) {
+    console.log('created account in DynamoDB'); if (err) { res.send(err); }
+     else { res.send({ message: "Success" }); } });
+       }catch(err)
+       {
+       res.json({message:"Something went wrong. Try back later"});
+       }
+    }
 });
-//All My cart operations
+/*
+ * 
+ */
+});
+// All My cart operations
 var router = express.Router();
 router.route('/cart/:id')
     .get(function(req, res) {
@@ -366,6 +374,9 @@ router2.route('/item')
             }
         });
     })
+router.route('/').get(function(req,res){
+res.json("hi");
+});
 router.route('/item')
     .get(function(req, res) {
         Items

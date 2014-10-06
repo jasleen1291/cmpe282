@@ -1,4 +1,26 @@
 <div ng-controller="ProfileController">
-  <span></span>
- fdsnjsdfhj
-</div>
+ 	<div class="right">
+		<input type="search" ng-model="search" placeholder="Search...">
+		</br> 
+		Sort By:
+		<select ng-model="sortorder">
+			<option value="+name">Name (A-Z)</option>
+			<option value="+cost">Cost (Low - High)</option>
+			<option value="-cost">Cost (High - Low)</option>
+		</select>
+<div data-ng-controller="addToCartController" data-ng-init="init()" >
+<table>
+<tr>
+<td class="first"> Name</td>
+<td class="second">Quantity</td>
+<td class="third">Cost</td>
+</tr>
+	<tr ng-repeat="item in cartItems">
+	<td class="first">{{item.item}}</td>
+	<td class="second">{{item.quantity}}</td>
+	<td class="third">{{item.cost}}</td>
+	</tr>
+	</table>
+	</div>
+	</div>
+</div></div>

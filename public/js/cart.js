@@ -19,9 +19,16 @@ myApp.factory('CartService', function() {
 		items : [],total:0
 	};
 });
-myApp.controller('addToCartController', function($scope, Cart,CartService) {
+myApp.controller('addToCartController', function($scope, Cart,CartService,$location) {
+	$scope.id = -1;
+	try{
+		$scope.id =(JSON.parse(localStorage.data).id);
+	}catch(err)
+	{
+		$location.path("/login");
+	}
 	
-	$scope.id = 1;
+	
 	$scope.init = function() {
 		
 		if(CartService.items.length==0){
@@ -83,6 +90,7 @@ myApp.controller('addToCartController', function($scope, Cart,CartService) {
 				{
 					CartService.items.push(item);
 					$scope.updateScope();
+					
 				}
 		} else {
 			$scope.addToCart.submitted = true;

@@ -9,39 +9,11 @@
 
     <div class="row">
       <div class="myinput">
-         <input type="text"
-               placeholder="Name"
-               name="name"
-               ng-model="signup.name"
-               ng-minlength=3
-               ng-maxlength=20
-               ng-class="{error: signup_form.name.$dirty && signup_form.name.$invalid}"
-               required />
-      <div class="error"
-           ng-show="signup_form.name.$dirty && signup_form.name.$invalid && !signup_form.name.$focused">
-        <p class="error"
-               ng-show="signup_form.name.$error.required">
-               Your name is required.
-        </p>
-        <p class="error"
-               ng-show="signup_form.name.$error.minlength">
-               Your name is required to be at least 3 characters
-        </p>
-        <p class="error"
-               ng-show="signup_form.name.$error.maxlength">
-               Your name cannot be longer than 20 characters
-        </p>
-      </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="myinput">
         <input type="email"
           placeholder="Email"
           name="email"
           ng-model="signup.email"
-          ng-minlength=3 ng-maxlength=20
+          ng-minlength=3 ng-maxlength=100
           ng-class="{error: signup_form.name.$dirty && signup_form.name.$invalid}"
           required />
         <div class="error"
@@ -60,39 +32,36 @@
           </p>
           <p class="error"
                  ng-show="signup_form.email.$error.maxlength">
-                 Your email cannot be longer than 20 characters
+                 Your email cannot be longer than 100 characters
           </p>
         </div>
       </div>
     </div>
 
     <div class="myinput">
-        <input  type="text"
-                placeholder="Desired username"
-                name="username"
-                ng-model="signup.username"
+        <input  type="password"
+                placeholder="Desired password"
+                name="password"
+                ng-model="signup.password"
                 ng-minlength=3
                 ng-maxlength=20
                 ng-class="{error: signup_form.name.$dirty && signup_form.name.$invalid}"
-                ensure-unique="username" required />
+                ensure-unique="password" required />
       <div class="error"
            ng-show="signup_form.email.$dirty && signup_form.email.$invalid && signup_form.submitted">
         <p class="error"
-               ng-show="signup_form.username.$error.required">
-               Please input a username
+               ng-show="signup_form.password.$error.required">
+               Please input a password
         </p>
         <p class="error"
-               ng-show="signup_form.username.$error.minlength">
-               Your username is required to be at least 3 characters
+               ng-show="signup_form.password.$error.minlength">
+               Your password is required to be at least 3 characters
         </p>
         <p class="error"
-               ng-show="signup_form.username.$error.maxlength">
-               Your username cannot be longer than 20 characters
+               ng-show="signup_form.password.$error.maxlength">
+               Your password cannot be longer than 20 characters
         </p>
-        <p class="error"
-               ng-show="signup_form.username.$error.unique">
-               That username is taken, please try another
-        </p>
+       
       </div>
     </div>
 </br>
