@@ -4,6 +4,25 @@ body {
 	margin: 0px;
 	font-family: 'myFirstFont';
 }
+table{
+	font-family: 'Arial';
+	border:1px solid;
+}
+.first,.third{
+	color:white;
+	background: -webkit-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Safari 5.1-6*/
+  background: -o-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Fx 3.6-15*/
+  background: linear-gradient( rgba(155,155,155,1), rgba(0, 195, 255, 1)); /*Standard*/
+}
+.second{
+	color:#007399;
+	
+	background: -webkit-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Safari 5.1-6*/
+  background: -o-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Opera 11.1-12*/
+  background: -moz-linear-gradient(rgba(155,155,155,1),rgba(0, 195, 255, 1)); /*Fx 3.6-15*/
+  background: linear-gradient( rgba(155,155,155,1), rgba(0, 195, 255, 1)); /*Standard*/
+}
 .items{
 	font-family: 'Arial';
 	background:white;
@@ -14,7 +33,7 @@ body {
 	-webkit-border-bottom-left-radius: 8px;
 	-moz-border-radius-bottomleft: 8px;
 	border-bottom-left-radius: 8px;
-	padding:10px;
+	
 	-webkit-border-top-right-radius : 8px;
 	-moz-border-radius-top-right: 8px;
 	border-top-right-radius: 8px;
@@ -22,6 +41,7 @@ body {
 	-moz-border-radius-topleft: 8px;
 	border-top-left-radius: 8px;
 	-webkit-top-bottom-right-radius: 8px;
+	margin:2px;
 }
 @font-face {
 	font-family: 'myFirstFont';
@@ -193,4 +213,42 @@ input .ng-pristine {
     text-align: center;
     color:white;
     font-size:150%;
+}
+.left{
+	float:left;
+	width:79%;
+}
+.itemcenter{
+	float:left;
+	width:47%;
+	height:160px;
+	overflow:hidden;
+}
+
+.right{
+	float:right;
+	width:20%;
+	margin:5px;
+}
+.clear
+{
+	clear:both
+}
+a{
+	color:white;
+}
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
 }

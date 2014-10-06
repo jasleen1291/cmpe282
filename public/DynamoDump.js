@@ -52,7 +52,7 @@ module.exports = {
           description: {
             S: 'Introducing the all-new 2014 D- Series 32" (31.50" diag.) Full-Array LED TV with an ultra-narrow frame, and vibrant LED-lit picture. Full-Array LED delivers brilliant picture quality as it distributes LEDs behind the entire screen for superior light uniformity. Enjoy high definition TV in crisp, clear 720p HD resolution. With a near borderless design, a thinner side profile and space-saving, slimmer base, the new D-Series 32" Full-Array LED TV is a perfect upgrade to any room. VIZIO D-Series: Picture-Perfect Brilliance. </br>Note: You must have a source of HD programming in order to take full advantage of the VIZIO 32" LED HDTV. Contact your local cable or satellite TV provider for details on how to upgrade.</br>VIZIO D320-B1 32" 720p 60Hz Class LED HDTV:<ul><li>32" LED panel</li><li> With a 1366 x 768 resolution</li><li> True 16:9 aspect ratio</li><li> View your movies as the director intended</li><li> Wide 178-degree vertical and 178-degree horizontal angles</li><li> See a clear picture from anywhere in the room</li><li> Built-in digital tuner</li><li> Watch digital broadcasts, including HDTV programs where available</li><li> HDMI Inputs: 2</li><li> Enjoy a superior HD experience with HDMI, the one cable audio/video solution</li><li> 31.5" screen measured diagonally from corner to corner</li><li> Wall mountable</li><li> VESA standard 100mm x 100mm</li></ul>'
           },
-          description: {
+          cost: {
             S: '218.00'
           },
           quantity: {

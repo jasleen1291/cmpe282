@@ -24,6 +24,7 @@ vogels.dynamoDriver(dyn);
 //Checking to see if tables exist
 dyn.listTables(function(err, data) {
     console.log('listTables', err, data);
+    
     calls(err, data);
 }, calls);
 /**ALL MY MODELS**/
@@ -103,9 +104,9 @@ app.post("/signup", function(req, res) {
 });
 //All My cart operations
 var router = express.Router();
-router.route('/cart/:cart_id')
+router.route('/cart/:id')
     .get(function(req, res) {
-        cart.get(req.params.cart_id, function(err, acc) {
+        cart.get(req.params.id, function(err, acc) {
             if (err) {
                 res.send(400, 'User cart not found');
             } else {
@@ -115,10 +116,10 @@ router.route('/cart/:cart_id')
                     batchGet.push(item[i].item);
                 }
                 console.log(batchGet);
-                Items.getItems(['Apple iPhone 6 Plus 128gb Gold - Unlocked'], function(err, accounts) {
+                Items.getItems(batchGet, function(err, accounts) {
                     if (err)
                         res.send(err);
-                    else res.send({
+                    else res.json({
                         cart: acc,
                         items: accounts
                     }); // prints loaded 3 accounts
@@ -129,7 +130,7 @@ router.route('/cart/:cart_id')
     })
     .put(function(req, res) {
         if (req.body.opt === "add") {
-            cart.get(req.params.cart_id, function(err, acc) {
+            cart.get(req.params.id, function(err, acc) {
                     if (err) {
                         res.send(400, 'User cart not found');
                     } else {
@@ -143,7 +144,7 @@ router.route('/cart/:cart_id')
                         });
                         jsonStr = JSON.stringify(items);
                         cart.update({
-                            id: req.params.cart_id,
+                            id: req.params.id,
                             items: jsonStr
                         }, function(err, post) {
                             if (err)
@@ -156,7 +157,7 @@ router.route('/cart/:cart_id')
 
             );
         } else if (req.body.opt === "clear") {
-            cart.get(req.params.cart_id, function(err, acc) {
+            cart.get(req.params.id, function(err, acc) {
                     if (err) {
                         res.send(400, 'User cart not found');
                     } else {
@@ -164,7 +165,7 @@ router.route('/cart/:cart_id')
                         var items = []
                         var item = JSON.stringify(items);
                         cart.update({
-                            id: req.params.cart_id,
+                            id: req.params.id,
                             items: item
                         }, function(err, post) {
                             if (err)
@@ -177,7 +178,7 @@ router.route('/cart/:cart_id')
 
             );
         } else if (req.body.opt === "chngeQuantity") {
-            cart.get(req.params.cart_id, function(err, acc) {
+            cart.get(req.params.id, function(err, acc) {
                     if (err) {
                         res.send(400, 'User cart not found');
                     } else {
@@ -197,7 +198,7 @@ router.route('/cart/:cart_id')
                         if (oldItem) {
                             jsonStr = JSON.stringify(items);
                             cart.update({
-                                id: req.params.cart_id,
+                                id: req.params.id,
                                 items: jsonStr
                             }, function(err, post) {
                                 if (err)
@@ -215,7 +216,7 @@ router.route('/cart/:cart_id')
 
             );
         } else if (req.body.opt === "del") {
-            cart.get(req.params.cart_id, function(err, acc) {
+            cart.get(req.params.id, function(err, acc) {
                     if (err) {
                         res.send(400, 'User cart not found');
                     } else {
@@ -234,7 +235,7 @@ router.route('/cart/:cart_id')
                         if (oldItem) {
                             jsonStr = JSON.stringify(items);
                             cart.update({
-                                id: req.params.cart_id,
+                                id: req.params.id,
                                 items: jsonStr
                             }, function(err, post) {
                                 if (err)
@@ -385,12 +386,12 @@ router.route('/item')
                 }
             });
     });
-router.route('/:catalog')
+router.route('/:id')
     .get(function(req, res) {
         Items
 
             .scan()
-            .where('catalog').eq(req.params.catalog)
+            .where('catalog').eq(req.params.id)
             .returnConsumedCapacity()
 
         .exec(function(err, resp) {
@@ -398,7 +399,7 @@ router.route('/:catalog')
                 res.send('Error running scan', err);
             } else {
 
-                res.send(resp.Items);
+                res.send(resp);
 
                 if (resp.ConsumedCapacity) {
 

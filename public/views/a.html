@@ -9,6 +9,8 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
 <script src="js/catalog.js"></script>
 <script src="js/app.js"></script>
+<script src="js/cart.js"></script>
+
 </head>
 <body ng-app="myApp">
 <script src="js/UserController.js"></script>
@@ -43,7 +45,7 @@
 	</div>
 	<div class="menu" ng-controller="CatalogController">
 	<ol>
-	<li class="menuItem" ng-repeat="name in menuItems.Items">{{name.name}}</li>
+	<li  class="menuItem" ng-repeat="name in menuItems.Items"><a href="/#/catalog/{{name.name}}">{{name.name}}</a></li>
 	</ol>
 	</div>
 	<div class="content">
