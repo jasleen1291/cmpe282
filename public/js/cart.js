@@ -48,12 +48,14 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 						if(item[j].name===name)
 							{
 							items[i].cost=item[j].cost;
+							items[i].available=item[j].quantity;
 							}
 					
 					}
 				}
 			$scope.cartItems = items;
 			CartService.items=items;
+			console.log(items);
 		});
 		}else{
 			$scope.cartItems =CartService.items;
@@ -69,9 +71,16 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 			cost: 0
 		};
 		if ($scope.addToCart.$valid) {
+			item = new Cart();
+			item.opt="add";
 			item.item = $scope.itemName;
+			item.available=$scope.itemAvailable;
+			
 			item.quantity = $scope.qty;
-			item.cost = parseFloat($scope.itemCost)*parseFloat(item.quantity);
+			item.cost = parseFloat($scope.itemCost);
+			var i={item : $scope.itemName,
+			quantity: $scope.qty,
+			cost : parseFloat($scope.itemCost),available:$scope.itemAvailable};
 			//console.log(CartService.items);
 			/*
 			 * if($scope.cartItems.indexOf(cartItem.item)>=0) { alert('Item
@@ -88,9 +97,11 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 			});
 			if(!exists)
 				{
-					CartService.items.push(item);
+				item.$update({ id: $scope.id },function(){
+				
+					CartService.items.push(i);
 					$scope.updateScope();
-					
+				});
 				}
 		} else {
 			$scope.addToCart.submitted = true;
@@ -100,5 +111,53 @@ $scope.updateScope=function()
 {
 	$scope.cartItems =CartService.items;
 	console.log("Updating scope");
+};
+$scope.updateQuantity=function()
+{
+	if($scope.qty===$scope.oldqty)
+		{
+		alert("Change quantity before updating");
+		}
+	else{
+		item = new Cart();
+		item.opt="chngeQuantity";
+		item.item =$scope.itemName;
+		item.quantity=$scope.qty;
+		var name=$scope.itemName;
+		var qty=$scope.qty;
+		item.$update({id:$scope.id},function(res){
+		
+			angular.forEach(CartService.items, function(cart) {
+				console.log(cart.item+"\t"+name);
+				if(cart.item===name)
+					{
+						cart.quantity=qty;
+					
+						$scope.updateScope();
+						
+					}
+				
+			});
+		},function(err){
+			console.log(err);
+		});
+	}
+};
+$scope.delete = function(name) {
+	item = new Cart();
+	item.opt="del";
+	item.item =name;
+	
+	item.$update({id:$scope.id},function(){
+		angular.forEach(CartService.items, function(cart) {
+			console.log(cart.item+"\t"+name);
+			if(cart.item===name)
+				{
+					CartService.items.splice((CartService.items.indexOf(cart)),1);
+					$scope.updateScope();
+				}
+			
+		});
+	});
 };
 });

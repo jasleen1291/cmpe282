@@ -84,7 +84,7 @@ table{
 	background-image: url('/images/header.jpg');
 }
 
-form {
+.myinput form {
 	background-color: #FFF;
 	width: 80%;
 	text-align: center;
@@ -199,7 +199,21 @@ input .ng-pristine {
 	position: relative;
 	top: 1px;
 }
-
+.cart ol {
+    width: 100%;
+    
+	margin: 0; padding: 0;
+    display: table;
+    table-layout: fixed; /* the magic dust that ensures equal width */
+    
+}
+.cart ol > li {
+    display:inline-block;
+   margin: 0; padding: 1%;
+    text-align: center;
+    color:white;
+    font-size:150%;
+}
 .menu ol {
     width: 100%;
     
@@ -217,7 +231,7 @@ input .ng-pristine {
 }
 .left{
 	float:left;
-	width:79%;
+	width:69%;
 }
 .itemcenter{
 	float:left;
@@ -228,7 +242,7 @@ input .ng-pristine {
 
 .right{
 	float:right;
-	width:20%;
+	width:30%;
 	margin:5px;
 }
 .clear

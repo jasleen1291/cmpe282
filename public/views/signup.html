@@ -3,12 +3,14 @@
 
 <link rel="stylesheet" type="text/css" href="stylesheets/style.css">  
 
-<form name="signup_form" novalidate ng-submit="signupForm()" ng-controller="SignupController">
-  </br>
-    <h1>Signup</h1>
+
 
     <div class="row">
-      <div class="myinput">
+    <div class="myinput">
+    <form name="signup_form" novalidate ng-submit="signupForm()" ng-controller="SignupController">
+  </br>
+    <h1>Signup</h1>
+      
         <input type="email"
           placeholder="Email"
           name="email"
@@ -35,10 +37,10 @@
                  Your email cannot be longer than 100 characters
           </p>
         </div>
-      </div>
-    </div>
+      
+   </br></br>
 
-    <div class="myinput">
+
         <input  type="password"
                 placeholder="Desired password"
                 name="password"
@@ -63,10 +65,13 @@
         </p>
        
       </div>
-    </div>
-</br>
+      </br></br>
     <button type="submit" class="blueButton">Submit</button>
+     </br></br>
+    </form>
 </br>
+    </div>
+
 </br>
 </br>
 </form>

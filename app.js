@@ -121,6 +121,7 @@ router.route('/cart/:id')
                 var item = JSON.parse(acc.attrs.items);
                 var batchGet = [];
                 for (i in item) {
+                	console.log(i+"\t"+item[i].item);
                     batchGet.push(item[i].item);
                 }
                 console.log(batchGet);

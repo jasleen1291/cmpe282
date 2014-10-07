@@ -1,6 +1,6 @@
 var myApp = angular.module('myControllers', []);
 
-myApp.controller('UserController', function($scope, $http, $window,$location,$routeParams) {
+myApp.controller('UserController', function($scope, $http, $window,$location,$routeParams,CartService) {
     
     $scope.message = '';
     $scope.submit = function() {
@@ -21,14 +21,14 @@ myApp.controller('UserController', function($scope, $http, $window,$location,$ro
     $scope.logout = function() {
 
             delete $window.localStorage.data;
-            
-            $location.path("/") ;
+            CartService.items=[];
+            CartService.total=0;
+            $location.path("/login") ;
         
     };
     $scope.profile = function() {
 
-        delete $window.localStorage.data;
-        
+       
         $location.path("/user/profile") ;
     
 };

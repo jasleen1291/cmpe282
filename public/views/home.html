@@ -52,6 +52,7 @@
 						style="width: 40px; padding: 2px; border: 1px solid black"
 						ng-model="qty" required /> 
 					<input type="hidden" name="itemCost" ng-model="itemCost" ng-init="itemCost =item.cost " value="{{item.cost}}">
+					<input type="hidden" name="itemAvailable" ng-model="itemAvailable" ng-init="itemAvailable =item.quantity " value="{{item.quantity}}">
 					
 					<input type="hidden" name="itemName" ng-model="itemName" ng-init="itemName =item.name " value="{{item.name}}">
 						<input type="submit"

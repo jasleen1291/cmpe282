@@ -50,6 +50,9 @@ myApp.config([ '$routeProvider', '$locationProvider',
 			}).when('/detail',{
 				templateUrl : 'views/detail.html',
 				controller : 'ViewController'
+			}).when('/cart',{
+				templateUrl : 'views/cart.html',
+				controller : 'addToCartController'
 			});
 			/* 
 			 
