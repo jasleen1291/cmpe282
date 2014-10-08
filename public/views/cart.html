@@ -18,11 +18,10 @@
 			<ol>
 				<li style="width: 50%">{{item.item}}</li>
 
-				<li style="width: 10%">
-				<input name="qty"
-					type="number" ng-model="qty" ng-init="qty=item.quantity" value="{{item.quantity}}"
-					style="width: 40px; padding: 2px;"  /></li>
-				
+				<li style="width: 10%"><input name="qty" type="number"
+					ng-model="qty" ng-init="qty=item.quantity"
+					value="{{item.quantity}}" style="width: 40px; padding: 2px;" /></li>
+
 				<input type="hidden" name="itemCost" ng-model="itemCost"
 					ng-init="itemCost =item.cost " value="{{item.cost}}">
 				<input type="hidden" name="itemAvailable" ng-model="itemAvailable"
@@ -30,25 +29,59 @@
 
 				<input type="hidden" name="itemName" ng-model="itemName"
 					ng-init="itemName =item.item " value="{{item.item}}">
-				<input name="oldqty"
-					type="hidden" ng-model="oldqty" ng-init="oldqty=item.quantity" value="{{item.quantity}}"
-					style="width: 40px; padding: 2px;"  />
+				<input name="oldqty" type="hidden" ng-model="oldqty"
+					ng-init="oldqty=item.quantity" value="{{item.quantity}}"
+					style="width: 40px; padding: 2px;" />
 
 				<li style="width: 10%">{{item.cost}}</li>
 				<li style="width: 10%" ng-click="delete(item.item)">Delete</li>
-				<li><input type="submit" class="whiteButton" value="Update" ng-disabled="!addToCart.$valid"/></li>
+				<li><input type="submit" class="whiteButton" value="Update"
+					ng-disabled="!addToCart.$valid" /></li>
 			</ol>
 			<center>
-			<div class="error"
-				ng-show="!addToCart.$pristine&&addToCart.qty.$error.max">You
-				cannot buy more than available quantity</div>
-			<div class="error"
-				ng-show="!addToCart.$pristine&&addToCart.qty.$error.min">You
-				need to add atleast one item to cart</div>
-			<div class="error"
-				ng-show="addToCart.qty.$error.number">
-				It is not a valid Number</div>
-				</center>
+				<div class="error"
+					ng-show="!addToCart.$pristine&&addToCart.qty.$error.max">You
+					cannot buy more than available quantity</div>
+				<div class="error"
+					ng-show="!addToCart.$pristine&&addToCart.qty.$error.min">You
+					need to add atleast one item to cart</div>
+				<div class="error" ng-show="addToCart.qty.$error.number">It is
+					not a valid Number</div>
+			</center>
 		</form>
+	</div>
+	<small style="margin: auto" ng-hide="checkingOut" ng-click="toggle()">Checkout</small>
+	<div ng-show="checkingOut" style="font-family:Arial;">
+		<form name="check" ng-submit="checkout()" ng-controller="addToCartController">
+			
+			<ol>
+			<li  style="width: 30%"><span>Card Number</span> </li>
+			<li><input
+				type="text" ng-minlength="16" ng-maxlength="20" size="20"
+				data-stripe="number" ng-model="charge.number" /></li>
+			</ol>
+			<ol>
+			<li  style="width: 30%">
+			 <span>CVC</span></li>
+			 <li> <input
+				type="text" ng-minlength="3" ng-maxlength="4" data-stripe="cvc"
+				ng-model="charge.cvc" /></li>
+				</ol>
+			<ol>
+			<li style="width: 30%">
+			 <span >Expiration (MM/YYYY)</span> </li><li>
+			 <input
+				type="text" ng-minlength="2" ng-maxlength="2" size="2"
+				data-stripe="exp_month" ng-model="charge.exp_month" />
+			 <span>
+				/ </span>
+			 <input type="text" ng-minlength="4" ng-maxlength="4" size="4"
+				data-stripe="exp-year" ng-model="charge.exp_year" /> 
+				</li></ol></br>
+			
+			<input  type="submit"  ng-disabled="check.$invalid"></input>
+		</form>
+		</br>
+		<small style="width: 30%" ng-show="checkingOut" ng-click="toggle()">Cancel</small>
 	</div>
 </div>

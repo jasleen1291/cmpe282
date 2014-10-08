@@ -25,18 +25,18 @@
 		
 			<div style="margin: 10px;">
 			<b>
-				<span style="padding: 10px;" ng-click="profile()">My Account</span>
+				<span style="padding: 10px;" ng-click="profile()" ng-hide="isUser()">My Account</span>
 				<span style="padding: 10px;" ng-click="logout()">Logout</span>
 			</b>
 			<br/>
 			<br/>
 			</div>
 		</div>
-		<div
+		<div ng-controller="UserController"
 			style="float: right; text-align: right; width: 5%; vertical-align: text-bottom;">
 
 
-			<img src="images/cart.png" width="100%" height="100%"></img>
+			<img src="images/cart.png" width="100%" height="100%" ng-click="cart()"></img>
 
 
 

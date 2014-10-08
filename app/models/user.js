@@ -55,4 +55,18 @@ User.signup = function(data, callback) {
 
 	});
 };
+User.checkout = function(data, callback) {
+	pool.getConnection(function(err, connection) {
+		var query = connection.query("INSERT INTO users set ? ", data,
+				function(err, rows) {
+
+					if (err)
+						{return callback(err);}
+					else
+						{callback(null, rows);}
+
+				});
+
+	});
+};
 module.exports = User;

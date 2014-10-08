@@ -56,7 +56,7 @@ function calls(err, data) {
         console.log("err");
     } else if (data.TableNames.length > 0) {
     startBatchWrite();
-  // callback();
+ //callback();
     } else {
         var call = vogels.createTables({
             'catalog': {
@@ -113,6 +113,24 @@ if (err||err!==null) {
 // All My cart operations
 var router = express.Router();
 router.route('/cart/:id')
+.post(function(req,res){
+	var items=JSON.parse(req.body.items);
+	var total=0.0;
+	for(var i=0;i<items.length;i++)
+		{
+		console.log(items[i]);
+		total+=(parseFloat(items[i].cost)*items[i].quantity);
+		Items.update({name : items[i].item, quantity : {$add : Math.abs(items[i].quantity) * -1}}, function (err, acc) {
+			  if(err)
+				  {
+				  console.log(err);
+				  }
+			});
+		}
+	console.log(total.toFixed(2));
+	console.log(req.params.id);
+	res.send("Checked Out");
+})
     .get(function(req, res) {
         cart.get(req.params.id, function(err, acc) {
             if (err) {
@@ -121,10 +139,10 @@ router.route('/cart/:id')
                 var item = JSON.parse(acc.attrs.items);
                 var batchGet = [];
                 for (i in item) {
-                	console.log(i+"\t"+item[i].item);
+                	
                     batchGet.push(item[i].item);
                 }
-                console.log(batchGet);
+               // console.log(batchGet);
                 Items.getItems(batchGet, function(err, accounts) {
                     if (err)
                         res.send(err);

@@ -160,4 +160,25 @@ $scope.delete = function(name) {
 		});
 	});
 };
+$scope.checkingOut=false;
+$scope.toggle=function()
+{
+	$scope.checkingOut=!$scope.checkingOut;
+};
+$scope.checkout = function(name) {
+	var it=[];
+	angular.forEach(CartService.items, function(cart) {
+		it.push({item:cart.item,quantity:cart.quantity,cost:cart.cost});
+		
+	});
+	console.log($scope);
+	var item=new Cart();
+	item.items=JSON.stringify(it);
+	
+	item.$save({id:$scope.id},function(){
+	//CartService.items=[];
+	//$scope.updateScope();
+		alert("Successfully Checkout");
+	});
+};
 });
