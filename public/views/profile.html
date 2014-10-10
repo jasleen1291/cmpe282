@@ -1,0 +1,25 @@
+<div style="height:100%;">
+<div style="float:left;width:30%;background:white;height:70%;">
+<ul>
+<p ng-click="view=0">Add Item</p>
+
+<p ng-click="view=1">Add Catalog</p>
+</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+</ul>
+
+</div>
+<div style="float:right;width:70%;">
+<div ng-show="view===0">
+<h2>Add Item</h2>
+<form>
+<input class="addForms" ng-model="name" type="text" placeholder="Name"></input><br/><br/>
+<textarea class="addForms" ng-model="description" placeholder="description"></textarea><br/><br/>
+<input class="addForms" type="number" ng-model="quantity" placeholder="Quantity"></input><br/><br/>
+<input class="addForms" placeholder="Cost" type="text" ng-model="cost" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" /> <br/><br/>
+
+<select></select>
+</form>
+</div>
+<div ng-show="view===1">Add Catalog</div>
+</div>
+</div>

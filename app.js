@@ -116,6 +116,7 @@ router.route('/cart/:id')
 .post(function(req,res){
 	var items=JSON.parse(req.body.items);
 	var total=0.0;
+	
 	for(var i=0;i<items.length;i++)
 		{
 		console.log(items[i]);
@@ -129,7 +130,26 @@ router.route('/cart/:id')
 		}
 	console.log(total.toFixed(2));
 	console.log(req.params.id);
-	res.send("Checked Out");
+	
+    var item = JSON.stringify([]);
+    cart.update({
+        id: req.params.id,
+        items: item
+    }, function(err, post) {
+        
+    });
+    var data={
+    		id: req.params.id,	
+    		total:total.toFixed(2),
+    		items:JSON.stringify(items),
+    		creditcard:req.body.creditcard
+    		
+    };
+    User.checkout(data, function(err, user) {
+    	console.log("error"+err)
+    	
+    	});
+	res.json({message:"Checked Out"});
 })
     .get(function(req, res) {
         cart.get(req.params.id, function(err, acc) {
@@ -367,7 +387,7 @@ router2.route('/item')
             quantity: req.body.quantity,
             cost: req.body.cost
         });
-        console.log(item);
+        
         item.save(
             function(err, item) {
                 console.log('created account in DynamoDB');

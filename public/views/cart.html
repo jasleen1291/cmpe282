@@ -50,38 +50,34 @@
 			</center>
 		</form>
 	</div>
+	<center>
+	</br></br>
 	<small style="margin: auto" ng-hide="checkingOut" ng-click="toggle()">Checkout</small>
-	<div ng-show="checkingOut" style="font-family:Arial;">
-		<form name="check" ng-submit="checkout()" ng-controller="addToCartController">
+	<div style="color:#007399;background:white;width:40%;" ng-show="checkingOut" style="font-family:Arial;">
+		<form name="check" ng-submit="checkout()" novalidate ng-controller="addToCartController">
 			
 			<ol>
-			<li  style="width: 30%"><span>Card Number</span> </li>
+			<li  style="width: 60%;color:#007399;"><span>Card Number</span> </li>
 			<li><input
-				type="text" ng-minlength="16" ng-maxlength="20" size="20"
-				data-stripe="number" ng-model="charge.number" /></li>
+				type="number" ng-minlength="16" ng-maxlength="20" size="20"
+				data-stripe="number" name="cnumber" ng-model="cnumber" required /></li>
+			<li style="color:#007399;" ng-show="!check.$pristine&&check.cnumber.$invalid"><small>The credit card number is required and needs to be between 16 and 20 digits in length and can contain only number</small></li>
 			</ol>
 			<ol>
-			<li  style="width: 30%">
-			 <span>CVC</span></li>
+			<li  style="width:60%;color:#007399;"> 
+			 <span>Card Holder Name</span></li>
 			 <li> <input
-				type="text" ng-minlength="3" ng-maxlength="4" data-stripe="cvc"
-				ng-model="charge.cvc" /></li>
-				</ol>
-			<ol>
-			<li style="width: 30%">
-			 <span >Expiration (MM/YYYY)</span> </li><li>
-			 <input
-				type="text" ng-minlength="2" ng-maxlength="2" size="2"
-				data-stripe="exp_month" ng-model="charge.exp_month" />
-			 <span>
-				/ </span>
-			 <input type="text" ng-minlength="4" ng-maxlength="4" size="4"
-				data-stripe="exp-year" ng-model="charge.exp_year" /> 
-				</li></ol></br>
+				type="text" ng-minlength="3"  data-stripe="cvc"
+				ng-model="cname" name="cname" required/></li>
+				<li style="color:#007399;" ng-show="!check.cname.$pristine&&check.cname.$invalid"><small>The card holder name is required and needs to be atleast 3 characters in length</small></li>
 			
-			<input  type="submit"  ng-disabled="check.$invalid"></input>
+				</ol>
+			</br>
+			
+			<input  type="submit" ng-disabled="check.$invalid" ></input>
 		</form>
 		</br>
-		<small style="width: 30%" ng-show="checkingOut" ng-click="toggle()">Cancel</small>
+		<p style="width: 30%" ng-show="checkingOut" ng-click="toggle()">Cancel</p>
 	</div>
+	</center>
 </div>

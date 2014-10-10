@@ -110,7 +110,7 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 $scope.updateScope=function()
 {
 	$scope.cartItems =CartService.items;
-	console.log("Updating scope");
+	console.log(CartService.items+"\t"+$scope.cartItems);
 };
 $scope.updateQuantity=function()
 {
@@ -171,14 +171,14 @@ $scope.checkout = function(name) {
 		it.push({item:cart.item,quantity:cart.quantity,cost:cart.cost});
 		
 	});
-	console.log($scope);
 	var item=new Cart();
 	item.items=JSON.stringify(it);
+	item.creditcard=$scope.cnumber;
+	item.$save({id:$scope.id},function(res){
 	
-	item.$save({id:$scope.id},function(){
-	//CartService.items=[];
-	//$scope.updateScope();
-		alert("Successfully Checkout");
+		CartService.items=[];
+		$scope.updateScope();
+		location.path("/");
 	});
 };
 });

@@ -121,8 +121,27 @@ p {
 	width: 91%;
 	color: #007399;
 }
-
-input .ng-invalid {
+.addForms{
+	padding:5px;
+	margin:0% 3%;
+	width:90%;
+}
+textarea{
+	-webkit-border-top-left-radius: 6px;
+	-moz-border-radius-topleft: 6px;
+	border-top-left-radius: 6px;
+	-webkit-border-top-right-radius: 6px;
+	-moz-border-radius-topright: 6px;
+	border-top-right-radius: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	border-bottom-right-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	border-bottom-left-radius: 6px;
+	border: 2px solid #007399;
+}
+input.ng-invalid {
 	-webkit-border-top-left-radius: 6px;
 	-moz-border-radius-topleft: 6px;
 	border-top-left-radius: 6px;
@@ -138,7 +157,7 @@ input .ng-invalid {
 	border: 2px solid #007399;
 }
 
-input .ng-pristine {
+input.ng-pristine,input.ng-valid {
 	-webkit-border-top-left-radius: 6px;
 	-moz-border-radius-topleft: 6px;
 	border-top-left-radius: 6px;
