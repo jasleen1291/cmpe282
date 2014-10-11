@@ -9,8 +9,7 @@ app.get('/', function(req, res) {
 	
 		var db=require('/srv/www/cmpe281/shared/config/opsworks');
 		res.send(db);
-	
-  
+
 });
 
 
