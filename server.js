@@ -8,12 +8,14 @@ app.get('/', function(req, res) {
 	try{
 		var db=require('./shared/config/opsworks');
 		connection=(mysql.createConnection(db.db));
+		res.send("connected");
 		}
 		catch(err)
 		{
-			connection=err;
+			
+			res.send(err);
 		}
-	res.send(connection);
+	
   
 });
 
