@@ -385,7 +385,11 @@ RequestItems:param.RequestItems
   ReturnConsumedCapacity: 'INDEXES | TOTAL | NONE',
   ReturnItemCollectionMetrics: 'SIZE | NONE'
 };
-
+ app.set('port', 80);
+    http.createServer(app).listen(app.get('port'), function() {
+        console.log('Express server listening on port ' + app.get('port'));
+    });
+    exports = module.exports = app;
 dyn.batchWriteItem(newParams, function(err, data) {
         if (err) console.log(err, err.stack); // an error occurred
         else console.log(data); // successful response
@@ -393,11 +397,7 @@ dyn.batchWriteItem(newParams, function(err, data) {
     app.use(express.static(__dirname + '/public'));
     app.use('/user', router);
     app.use('/admin', router2);
-    app.set('port', process.env.PORT || 3000);
-    http.createServer(app).listen(app.get('port'), function() {
-        console.log('Express server listening on port ' + app.get('port'));
-    });
-    exports = module.exports = app;
+   
 };
 
 router.route('/catalog')
