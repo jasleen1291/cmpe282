@@ -19,30 +19,15 @@ app.get('/', function(req, res) {
 				'SHOW TABLES',
 				function(err, rows, fields) {
 					if (err) {
-						m
+						message=err;
 					}
-					if (rows.length > 0) {
-						var query = 'Update users set lastlogin= NOW() where id= '
-								+ parseInt(rows[0].id);
-
-						connection.query(query, function(err,
-								row, fields) {
-							if (err) {
-								return callback(err);
-							}
-						});
-						callback(null, new User(rows[0]));
-
-					} else {
-
-						return callback({
-							message : "Invalid Login"
-						});
+					else{
+						message=rows;
 					}
 
 					connection.release();
 				});
-		res.send("connected");
+		res.send(message);
 		}
 		catch(err)
 		{
