@@ -4,7 +4,7 @@ var mysql = require('mysql');
 var connection="";
 var AWS = require('aws-sdk');
 var db = new AWS.DynamoDB();
-AWS.config.region = 'us-west-1a';
+AWS.config.region = 'us-west-1';
 app.get('/', function(req, res) {
 	var message="";
 	/*try{
@@ -22,6 +22,9 @@ app.get('/', function(req, res) {
 		}
 	*/
 	db.listTables(function(err, data) {
+		if(err)
+			res.json(err);
+		else
 		res.json(data.TableNames);
 		});
   
