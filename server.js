@@ -22,9 +22,9 @@ app.get('/', function(req, res) {
 						
 					}
 
-					connection.release();
+					res.send(message);
 				});
-		res.send(message);
+		
 		}
 		catch(err)
 		{
