@@ -1,8 +1,16 @@
 var express = require('express');
 var app = express();
 var mysql = require('mysql');
+var connection="";
+try{
 var db=require('./shared/config/opsworks');
-var connection=(mysql.createConnection(db.db));
+connection=(mysql.createConnection(db.db));
+}
+catch(err)
+{
+	
+}
+
 app.get('/', function(req, res) {
  res.send(connection);
   
