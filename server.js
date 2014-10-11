@@ -28,5 +28,5 @@ app.get('/', function(req, res) {
 
 app.use(express.static('public'));
 
-app.listen(3000);
+app.listen(80);
 console.log('Listening on port 80');
