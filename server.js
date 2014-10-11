@@ -11,12 +11,12 @@ app.get('/', function(req, res) {
 		connection=(mysql.createConnection({
 	        host     : 'localhost',
 	        user     : 'root',
-	        password : 'root',
-	        database : 've_server'
+	        password : 'root'
+	     
 	    }));
 		connection
 		.query(
-				'SHOW TABLES',
+				'CREATE DATABASE IF NOT EXISTS ve_server',
 				function(err, rows, fields) {
 					if (err) {
 						message=err;
