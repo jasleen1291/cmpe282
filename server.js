@@ -3,8 +3,10 @@ var app = express();
 var mysql = require('mysql');
 var connection="";
 var AWS = require('aws-sdk');
+AWS.config.update({ accessKeyId: process.env.AWSSecretKey,
+    secretAccessKey: process.env.AWSAccessKeyId,region: 'us-west-1'});
 var db = new AWS.DynamoDB();
-AWS.config.update({region: 'us-west-1'});
+
 
 app.get('/', function(req, res) {
 	var message="";
