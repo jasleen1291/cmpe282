@@ -24,8 +24,7 @@ app.get('/', function(req, res) {
 
 					res.send(message);
 				});
-		
-		}
+				}
 		catch(err)
 		{
 			
