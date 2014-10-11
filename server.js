@@ -7,32 +7,17 @@ var connection="";
 app.get('/', function(req, res) {
 	var message="";
 	try{
-		
-		connection=(mysql.createConnection({
-	        host     : 'localhost',
-	        user     : 'root',
-	        password : 'root'
-	     
-	    }));
-		connection
-		.query(
-				'CREATE DATABASE IF NOT EXISTS ve_server',
-				function(err, rows, fields) {
-					if (err) {
-						message=err;
-					}
-					else{
-						message=rows;
-					}
-					res.send(message);
-					console.log(message);
-				});
-		
+		var db=require('/srv/www/cmpe281/shared/config/opsworks');
+		res.json({db:db,
+		key:process.env.AWSSecretKey,
+		id:process.env.AWSAccessKeyId
+		}
+				
+		);
 		}
 		catch(err)
 		{
 			
-			res.send("not connected");
 		}
 	
   
@@ -43,5 +28,5 @@ app.get('/', function(req, res) {
 
 app.use(express.static('public'));
 
-app.listen(80);
+app.listen(3000);
 console.log('Listening on port 80');
