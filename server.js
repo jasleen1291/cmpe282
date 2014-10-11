@@ -6,7 +6,7 @@ var connection="";
 
 app.get('/', function(req, res) {
 	try{
-		var db=require('./shared/config/opsworks');
+		var db=require('/srv/www/cmpe281/shared/config/opsworks');
 		connection=(mysql.createConnection(db.db));
 		res.send("connected");
 		}
