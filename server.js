@@ -5,10 +5,26 @@ var connection="";
 
 
 app.get('/', function(req, res) {
+	var message="";
 	try{
 		var db=require('/srv/www/cmpe281/shared/config/opsworks');
 		connection=(mysql.createConnection(db.db));
-		res.send("connected");
+		connection
+		.query(
+				'SHOW TABLES',
+				function(err, rows, fields) {
+					if (err) {
+						message=message+err;
+					}
+					
+					else {
+						message=rows;
+						
+					}
+
+					connection.release();
+				});
+		res.send(message);
 		}
 		catch(err)
 		{
