@@ -124,6 +124,13 @@ p {
 .addForms{
 	padding:5px;
 	margin:0% 3%;
+	
+}.addForms input{
+	padding:5px;
+		width:90%;
+}.addForms textarea{
+	padding:5px;
+	
 	width:90%;
 }
 textarea{

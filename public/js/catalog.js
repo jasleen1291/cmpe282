@@ -26,8 +26,14 @@ angular.module('myApp.controllers').
 controller('CatalogController',['$scope','Catalog','View','$location','$routeParams',function($scope,Catalog,View,$location,$routeParams){
 	var menuItems=Catalog.get(function(){
 		$scope.menuItems=menuItems;
+		
 	});
 	$scope.catalog=$routeParams.catalog;
+	
+	$scope.add=function()
+	{
+		console.log($scope);
+	}
 	//console.log($routeParams);
 	var menu=View.get({id:$scope.catalog},function(){
 		$scope.sortorder = 'name';
