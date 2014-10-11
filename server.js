@@ -24,10 +24,10 @@ app.get('/', function(req, res) {
 					else{
 						message=rows;
 					}
-
-					connection.release();
+					res.send(message);
+					console.log(message);
 				});
-		res.send(message);
+		
 		}
 		catch(err)
 		{
