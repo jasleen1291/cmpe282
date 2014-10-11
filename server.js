@@ -2,17 +2,18 @@ var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var connection="";
-try{
-var db=require('/srv/www/cmpe281/shared/config/opsworks');
-connection=(mysql.createConnection(db.db));
-}
-catch(err)
-{
-	
-}
+
 
 app.get('/', function(req, res) {
- res.send(connection);
+	try{
+		var db=require('./shared/config/opsworks');
+		connection=(mysql.createConnection(db.db));
+		}
+		catch(err)
+		{
+			connection=err;
+		}
+	res.send(connection);
   
 });
 
@@ -21,5 +22,5 @@ app.get('/', function(req, res) {
 
 app.use(express.static('public'));
 
-app.listen(80);
+app.listen(3000);
 console.log('Listening on port 80');
