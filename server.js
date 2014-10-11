@@ -12,8 +12,7 @@ app.get('/', function(req, res) {
 		}
 		catch(err)
 		{
-			
-			res.send(err);
+			res.send("not connected");
 		}
 	
   
