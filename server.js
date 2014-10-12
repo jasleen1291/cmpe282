@@ -15,6 +15,7 @@ app.get('/', function(req, res) {
         user     : 'root',
         password : 'root',
         database : 've_server'});
+	
 	connection.connect();
 	var queryString =  
 "CREATE TABLE IF NOT EXISTS `transactions` ("+
