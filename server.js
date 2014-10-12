@@ -350,7 +350,7 @@ var startBatchWrite=function(){
     app.use(express.static(__dirname + '/public'));
     app.use('/user', router);
     app.use('/admin', router2);
-    app.set('port', 3000);
+    app.set('port', 80);
     http.createServer(app).listen(app.get('port'), function() {
         console.log('Express server listening on port ' + app.get('port'));
     });
