@@ -11,7 +11,10 @@ var db = new AWS.DynamoDB();
 app.get('/', function(req, res) {
 	var mysql =	require('mysql');
 	var db=require('/srv/www/cmpe281/shared/config/opsworks');
-	var connection = mysql.createConnection(db.db);
+	var connection = mysql.createConnection({ host     : 'localhost',
+        user     : 'root',
+        password : 'root',
+        database : 've_server'});
 	connection.connect();
 	var queryString =  
 "CREATE TABLE IF NOT EXISTS `transactions` ("+
