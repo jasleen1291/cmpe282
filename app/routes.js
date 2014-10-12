@@ -14,7 +14,7 @@ var profile;
 		//console.log("error"+err)
 		if (err||err!=null) {
 	    	
-	        res.send(401, 'Wrong user or password');
+	        res.send(err);
 	        return;
 	    } else {
 	    	
