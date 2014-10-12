@@ -11,11 +11,12 @@ var db=require('/srv/www/cmpe281/shared/config/opsworks');
 app.get('/', function(req, res) {
 	try
 	{
+		db.db.user="root";
 	var connection = mysql.createConnection(db.db);
 	
 	connection.connect();
 	connection.query("Show tables", function(err, rows) {
-	    if (err) throw res.send(err);
+	    if (err) throw res.send(db);
 	 
 	    res.send(rows);
 	});
