@@ -25,7 +25,7 @@ app.get('/', function(req, res) {
   "`creditcard` varchar(45) DEFAULT NULL,"+
   "`tranDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP"+
 ") ENGINE=InnoDB DEFAULT CHARSET=latin1; "+
-"CREATE TABLE `users` ("+
+"CREATE TABLE IF NOT EXISTS `users` ("+
  " `id` int(11) NOT NULL AUTO_INCREMENT,"+
  " `username` varchar(100) DEFAULT NULL,"+
  " `password` varchar(45) DEFAULT NULL,"+
