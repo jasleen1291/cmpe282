@@ -11,7 +11,8 @@ var db = new AWS.DynamoDB();
 app.get('/', function(req, res) {
 	var mysql =	require('mysql');
 	var db=require('/srv/www/cmpe281/shared/config/opsworks');
-	var connection = mysql.createConnection(db.db);
+	res.send(db);
+	/*var connection = mysql.createConnection(db.db);
 	connection.connect();
 	var queryString =  
 "CREATE TABLE IF NOT EXISTS `transactions` ("+
@@ -22,13 +23,13 @@ app.get('/', function(req, res) {
   "`tranDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP"+
 ") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
 	connection.query(queryString, function(err, rows) {
-	    if (err) throw err;
+	    if (err) throw res.send(err);
 	 
 	    res.send(rows);
 	});
 	 
 	connection.end();
-  
+  */
 });
 
 
