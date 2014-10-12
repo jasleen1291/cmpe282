@@ -48,10 +48,9 @@ myApp.controller('UserController', function($scope, $http, $window, $location,
 	$scope.isUser = function() {
 		if (localStorage.getItem("data") === null) {
 			$location.path("/login");
-		}
-		if (JSON.parse(localStorage.getItem("data")).usertype === 1) {
 			return false;
 		}
+		
 		return true;
 	}
 });
