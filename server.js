@@ -13,7 +13,9 @@ AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
     secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
 
 
-dyn =  new AWS.DynamoDB();
+dyn =  new AWS.DynamoDB({
+    endpoint: new AWS.Endpoint('http://localhost:8000')
+});
 var vogels = require('vogels');
 vogels.dynamoDriver(dyn);
 // Checking to see if tables exist
@@ -315,20 +317,40 @@ router.route('/cart/:id')
 var callback = function() {
 	
 var param=require("./public/DynamoDump");
-
+var param2=require("./public/DynamoDump2");
+var param3=require("./public/DynamoDump3");
 var newParams={
 RequestItems:param.RequestItems
 ,
 "ReturnConsumedCapacity": "TOTAL"
 };
-
+var newParams2={
+		RequestItems:param2.RequestItems
+		,
+		"ReturnConsumedCapacity": "TOTAL"
+		};
+var newParams3={
+		RequestItems:param3.RequestItems
+		,
+		"ReturnConsumedCapacity": "TOTAL"
+		};
+//console.log(newParams2);
+//console.log(newParams);
 dyn.batchWriteItem(newParams, function(err, data) {
         if (err) console.log(err, err.stack); // an error occurred
-        else console.log(data); // successful response
-        startBatchWrite();
+        // successful response
+        dyn.batchWriteItem(newParams2, function(err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            /// successful response
+            dyn.batchWriteItem(newParams3, function(err, data) {
+                if (err) console.log(err, err.stack); // an error occurred
+                /// successful response
+                startBatchWrite();
+            }); 
+        }); 
     });    
        
-  
+  /*
 	 try{
 	       var items = [];
 	       var item = JSON.stringify(items);
@@ -341,7 +363,7 @@ dyn.batchWriteItem(newParams, function(err, data) {
 	 catch(err)
 	       {
 		 console.log({message:"Something went wrong. Try back later"});
-	       }
+	       }*/
 	// startBatchWrite();
 };
 var startBatchWrite=function(){
@@ -350,7 +372,7 @@ var startBatchWrite=function(){
     app.use(express.static(__dirname + '/public'));
     app.use('/user', router);
     app.use('/admin', router2);
-    app.set('port', 80);
+    app.set('port', 3000);
     http.createServer(app).listen(app.get('port'), function() {
         console.log('Express server listening on port ' + app.get('port'));
     });
@@ -361,7 +383,7 @@ router.route('/catalog')
     .get(function(req, res) {
         catalog
             .scan()
-            .limit(20)
+            
             .loadAll()
             .exec(function(err, resp) {
                 if (err) {
@@ -370,10 +392,6 @@ router.route('/catalog')
 
                     res.send(resp);
 
-                    if (resp.ConsumedCapacity) {
-
-                        res.send('Scan consumed: ', resp.ConsumedCapacity);
-                    }
                 }
             });
 
@@ -415,8 +433,7 @@ router2.route('/item')
                     res.send(err);
                 } else {
                     res.send({
-                        message: "Success",
-                        item: item
+                        message: "Success"
                     });
                 }
             }
@@ -440,7 +457,7 @@ router.route('/item')
     .get(function(req, res) {
         Items
             .scan()
-            .limit(20)
+            
             .loadAll()
             .exec(function(err, resp) {
                 if (err) {
@@ -449,10 +466,7 @@ router.route('/item')
 
                     res.send(resp);
 
-                    if (resp.ConsumedCapacity) {
-
-                        res.send('Scan consumed: ', resp.ConsumedCapacity);
-                    }
+                   
                 }
             });
     });
@@ -471,10 +485,6 @@ router.route('/:id')
 
                 res.send(resp);
 
-                if (resp.ConsumedCapacity) {
-
-                    res.send('Scan consumed: ', resp.ConsumedCapacity);
-                }
             }
         });
     });

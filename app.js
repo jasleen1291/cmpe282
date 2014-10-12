@@ -9,11 +9,8 @@ app.use(bodyParser.urlencoded({
 var mysql = require('mysql');
 require('./app/routes')(app); // configure our routes
 var AWS = require('aws-sdk');
-AWS.config.update({
-    accessKeyId: "myKey",
-    secretAccessKey: "secretKey",
-    region: "us-east-1"
-});
+AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
+    secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
 
 
 dyn = new AWS.DynamoDB({

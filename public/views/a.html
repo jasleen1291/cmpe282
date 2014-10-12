@@ -18,14 +18,14 @@
 <script src="js/ProfileController.js"></script>
 
 	<div class="header" >
-		<div style="float: left; width: 35%;">
-			<span class="logo"><i> Let's Shop Together</i></span>
+		<div style="float: left; width: 35%;" ng-controller="UserController">
+			<span class="logo" ng-click="home()"><i> Let's Shop Together</i></span>
 		</div>
 		<div class="headerItem" ng-controller="UserController">
 		
 			<div style="margin: 10px;">
 			<b>
-				<span style="padding: 10px;" ng-click="profile()" ng-hide="isUser()">My Account</span>
+				<span style="padding: 10px;" ng-click="profile()" >My Account</span>
 				<span style="padding: 10px;" ng-click="logout()">Logout</span>
 			</b>
 			<br/>

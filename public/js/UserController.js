@@ -33,6 +33,11 @@ myApp.controller('UserController', function($scope, $http, $window, $location,
 		$location.path("/user/profile");
 
 	};
+	$scope.home = function() {
+
+		$location.path("/");
+
+	};
 	$scope.cart = function() {
 
 		$location.path("/cart");
@@ -45,12 +50,10 @@ myApp.controller('UserController', function($scope, $http, $window, $location,
 		$location.path("/signup");
 
 	};
-	$scope.isUser = function() {
-		if (localStorage.getItem("data") === null) {
+
+if (localStorage.getItem("data") === null) {
 			$location.path("/login");
-			return false;
+			
 		}
-		
-		return true;
-	}
+	
 });

@@ -11,6 +11,12 @@ angular.module('myApp.services').factory('ViewAll',function($resource){
 	
 	return abc;
 });
+angular.module('myApp.services').factory('AddItem',function($resource){
+	
+	var abc= $resource('/admin/item');
+	
+	return abc;
+});
 angular.module('myApp.services').factory('View',function($resource){
 	return $resource('/user/:id', {
 		id : '@_id'
@@ -23,7 +29,7 @@ angular.module('myApp.services').factory('View',function($resource){
 });
 angular.module('myApp.controllers',['ngSanitize']);
 angular.module('myApp.controllers').
-controller('CatalogController',['$scope','Catalog','View','$location','$routeParams',function($scope,Catalog,View,$location,$routeParams){
+controller('CatalogController',['$scope','Catalog','View','$location','$routeParams','AddItem',function($scope,Catalog,View,$location,$routeParams,AddItem){
 	var menuItems=Catalog.get(function(){
 		$scope.menuItems=menuItems;
 		
@@ -32,7 +38,19 @@ controller('CatalogController',['$scope','Catalog','View','$location','$routePar
 	
 	$scope.add=function()
 	{
-		console.log($scope);
+	var item = new AddItem({
+            name: $scope.name,
+            description: $scope.Description,
+            catalog: $scope.catalog.name,
+            quantity: $scope.quantity,
+            cost: $scope.cost
+        });
+	AddItem.save(item, function(res) {
+	    //data saved. do something here.
+		alert(res.message);
+		$location.path('/');
+	  }); //saves an entry. Assuming $scope.entry is the Entry object  
+		console.log($scope.Description+"\t"+$scope.cost+"\t"+$scope.quantity+"\t"+$scope.name+"\t"+$scope.catalog.name);
 	}
 	//console.log($routeParams);
 	var menu=View.get({id:$scope.catalog},function(){

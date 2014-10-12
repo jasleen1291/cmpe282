@@ -1,6 +1,3 @@
-/**
- * New node file
- */
 var myApp = angular.module('myApp');
 var Cart = myApp.factory('Cart', function($resource) {
 	return $resource('/user/cart/:id', {
