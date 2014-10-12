@@ -1,52 +1,480 @@
-var express = require('express');
-var app = express();
+var http = require('http');
+var express = require('express'); // call express
+var app = express(); // define our app using express
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 var mysql = require('mysql');
-var connection="";
+require('./app/routes')(app); // configure our routes
 var AWS = require('aws-sdk');
 AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
     secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
-var db = new AWS.DynamoDB();
 
 
-app.get('/', function(req, res) {
-	var mysql =	require('mysql');
-	var db=require('/srv/www/cmpe281/shared/config/opsworks');
-	var connection = mysql.createConnection({ host     : 'localhost',
-        user     : 'root',
-        password : 'root',
-        database : 've_server', multipleStatements: true});
-	
-	connection.connect();
-	var queryString =  
-"CREATE TABLE IF NOT EXISTS `transactions` ("+
-"`id` int(11) DEFAULT NULL,"+
-  "`items` text,"+
-  "`total` varchar(45) DEFAULT NULL,"+
-  "`creditcard` varchar(45) DEFAULT NULL,"+
-  "`tranDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP"+
-") ENGINE=InnoDB DEFAULT CHARSET=latin1; "+
-"CREATE TABLE IF NOT EXISTS `users` ("+
- " `id` int(11) NOT NULL AUTO_INCREMENT,"+
- " `username` varchar(100) DEFAULT NULL,"+
- " `password` varchar(45) DEFAULT NULL,"+
- " `usertype` int(11) DEFAULT '0',"+
- " `lastlogin` timestamp NULL DEFAULT '1970-01-01 08:00:01',"+
-"  PRIMARY KEY (`id`)"+
-") ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;INSERT INTO `users` VALUES (1,'jasleenkaur1291@gmail.com','12345678',1,'2014-10-07 08:38:48');";
-	connection.query(queryString, function(err, rows) {
-	    if (err) throw res.send(err);
-	 
-	    res.send(rows);
-	});
-	 
-	connection.end();
-  
+dyn = new AWS.DynamoDB({
+    endpoint: new AWS.Endpoint('http://localhost:8000')
 });
+var vogels = require('vogels');
+vogels.dynamoDriver(dyn);
+// Checking to see if tables exist
+dyn.listTables(function(err, data) {
+    console.log('listTables', err, data);
+    
+    calls(err, data);
+}, calls);
+/** ALL MY MODELS* */
+var catalog = vogels.define('catalog', function(schema) {
+    schema.String('name', {
+        hashKey: true
+    });
+    schema.String('description');
+});
+var Items = vogels.define('item', function(schema) {
+    schema.String('name', {
+        hashKey: true
+    });
+    schema.String('catalog');
+    schema.String('description');
+    schema.Number('quantity');
+    schema.String('cost');
+});
+var cart = vogels.define('cart', function(schema) {
+    schema.Number('id', {
+        hashKey: true
+    });
+    schema.String('items');
+
+})
+
+function calls(err, data) {
+    if (err) {
+        console.log("err");
+    } else if (data.TableNames.length > 0) {
+    startBatchWrite();
+ //callback();
+    } else {
+        var call = vogels.createTables({
+            'catalog': {
+                readCapacity: 1,
+                writeCapacity: 1
+            },
+            'item': {
+                readCapacity: 1,
+                writeCapacity: 1
+            },
+            'cart': {
+                readCapacity: 1,
+                writeCapacity: 1
+            }
+        }, function(err) {
+            if (err) {
+                console.log('Error creating tables', err);
+            } else {
+                console.log('table are now created and active');
+                callback();
+            }
+        }, callback);
+
+    }
+
+};
+// Defining my routes
+var User = require("./app/models/user");
+app.post("/signup", function(req, res) {
+var profile;
+User.signup(req.body, function(err, user) {
+// console.log("error"+err)
+if (err||err!==null) {
+     res.send(err);
+        return;
+    } else {
+       try{
+       var items = [];
+       var item = JSON.stringify(items);
+       var acc = new cart({ id: user.insertId, items: item });
+       acc.save(function(err) {
+    console.log('created account in DynamoDB'); if (err) { res.send(err); }
+     else { res.send({ message: "Success" }); } });
+       }catch(err)
+       {
+       res.json({message:"Something went wrong. Try back later"});
+       }
+    }
+});
+/*
+ * 
+ */
+});
+// All My cart operations
+var router = express.Router();
+router.route('/cart/:id')
+.post(function(req,res){
+	var items=JSON.parse(req.body.items);
+	var total=0.0;
+	
+	for(var i=0;i<items.length;i++)
+		{
+		console.log(items[i]);
+		total+=(parseFloat(items[i].cost)*items[i].quantity);
+		Items.update({name : items[i].item, quantity : {$add : Math.abs(items[i].quantity) * -1}}, function (err, acc) {
+			  if(err)
+				  {
+				  console.log(err);
+				  }
+			});
+		}
+	console.log(total.toFixed(2));
+	console.log(req.params.id);
+	
+    var item = JSON.stringify([]);
+    cart.update({
+        id: req.params.id,
+        items: item
+    }, function(err, post) {
+        
+    });
+    var data={
+    		id: req.params.id,	
+    		total:total.toFixed(2),
+    		items:JSON.stringify(items),
+    		creditcard:req.body.creditcard
+    		
+    };
+    User.checkout(data, function(err, user) {
+    	console.log("error"+err)
+    	
+    	});
+	res.json({message:"Checked Out"});
+})
+    .get(function(req, res) {
+        cart.get(req.params.id, function(err, acc) {
+            if (err) {
+                res.send(400, 'User cart not found');
+            } else {
+                var item = JSON.parse(acc.attrs.items);
+                var batchGet = [];
+                for (i in item) {
+                	
+                    batchGet.push(item[i].item);
+                }
+               // console.log(batchGet);
+                Items.getItems(batchGet, function(err, accounts) {
+                    if (err)
+                        res.send(err);
+                    else res.json({
+                        cart: acc,
+                        items: accounts
+                    }); // prints loaded 3 accounts
+                });
+
+            }
+        })
+    })
+    .put(function(req, res) {
+        if (req.body.opt === "add") {
+            cart.get(req.params.id, function(err, acc) {
+                    if (err) {
+                        res.send(400, 'User cart not found');
+                    } else {
+
+                        var items = JSON.parse(acc.attrs.items);
+                        var item = req.body.item;
+                        var quantity = req.body.quantity;
+                        items.push({
+                            item: item,
+                            quantity: quantity
+                        });
+                        jsonStr = JSON.stringify(items);
+                        cart.update({
+                            id: req.params.id,
+                            items: jsonStr
+                        }, function(err, post) {
+                            if (err)
+                                res.send(err);
+                            else
+                                res.send(post);
+                        });
+                    }
+                }
+
+            );
+        } else if (req.body.opt === "clear") {
+            cart.get(req.params.id, function(err, acc) {
+                    if (err) {
+                        res.send(400, 'User cart not found');
+                    } else {
+
+                        var items = []
+                        var item = JSON.stringify(items);
+                        cart.update({
+                            id: req.params.id,
+                            items: item
+                        }, function(err, post) {
+                            if (err)
+                                res.send(err);
+                            else
+                                res.send(post);
+                        });
+                    }
+                }
+
+            );
+        } else if (req.body.opt === "chngeQuantity") {
+            cart.get(req.params.id, function(err, acc) {
+                    if (err) {
+                        res.send(400, 'User cart not found');
+                    } else {
+
+                        var items = JSON.parse(acc.attrs.items);
+                        var item = req.body.item;
+                        var quantity = req.body.quantity;
+                        var oldItem = false;
+                        for (var i in items) {
+                            console.log(i);
+                            if (items[i].item === item) {
+                                items[i].quantity = quantity;
+                                oldItem = true;
+                                break;
+                            }
+                        }
+                        if (oldItem) {
+                            jsonStr = JSON.stringify(items);
+                            cart.update({
+                                id: req.params.id,
+                                items: jsonStr
+                            }, function(err, post) {
+                                if (err)
+                                    res.send(err);
+                                else
+                                    res.send(post);
+                            });
+                        } else {
+                            res.send(400, 'Item not found');
+                        }
 
 
-   
+                    }
+                }
 
-app.use(express.static('public'));
+            );
+        } else if (req.body.opt === "del") {
+            cart.get(req.params.id, function(err, acc) {
+                    if (err) {
+                        res.send(400, 'User cart not found');
+                    } else {
 
-app.listen(80);
-console.log('Listening on port 80');
+                        var items = JSON.parse(acc.attrs.items);
+                        var item = req.body.item;
+                        var oldItem = false;
+                        for (var i in items) {
+                            console.log(i);
+                            if (items[i].item === item) {
+                                items.splice(i, 1);
+                                oldItem = true;
+                                break;
+                            }
+                        }
+                        if (oldItem) {
+                            jsonStr = JSON.stringify(items);
+                            cart.update({
+                                id: req.params.id,
+                                items: jsonStr
+                            }, function(err, post) {
+                                if (err)
+                                    res.send(err);
+                                else
+                                    res.send(post);
+                            });
+                        } else {
+                            res.send(400, 'Item not found');
+                        }
+                    }
+                }
+
+            );
+        } else {
+            res.send(400, 'Invalid operations');
+        }
+    });
+
+
+
+
+var callback = function() {
+var param=require("./public/DynamoDump");
+
+var newParams={
+RequestItems:param.RequestItems
+,
+  ReturnConsumedCapacity: 'INDEXES | TOTAL | NONE',
+  ReturnItemCollectionMetrics: 'SIZE | NONE'
+};
+
+dyn.batchWriteItem(newParams, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data); // successful response
+        startBatchWrite();
+    });    
+       
+  
+
+};
+var startBatchWrite=function(){
+
+
+    app.use(express.static(__dirname + '/public'));
+    app.use('/user', router);
+    app.use('/admin', router2);
+    app.set('port', 80);
+    http.createServer(app).listen(app.get('port'), function() {
+        console.log('Express server listening on port ' + app.get('port'));
+    });
+    exports = module.exports = app;
+};
+
+router.route('/catalog')
+    .get(function(req, res) {
+        catalog
+            .scan()
+            .limit(20)
+            .loadAll()
+            .exec(function(err, resp) {
+                if (err) {
+                    res.send('Error running scan', err);
+                } else {
+
+                    res.send(resp);
+
+                    if (resp.ConsumedCapacity) {
+
+                        res.send('Scan consumed: ', resp.ConsumedCapacity);
+                    }
+                }
+            });
+
+    });
+
+var router2 = express.Router();
+router2.route('/catalog')
+    .post(function(req, res) {
+
+        var acc = new catalog({
+            name: req.body.name,
+            description: req.body.description
+        });
+        acc.save(function(err) {
+            console.log('created account in DynamoDB');
+            if (err) {
+                res.send(err);
+            } else {
+                res.send({
+                    message: "Success"
+                });
+            }
+        });
+    });
+router2.route('/item')
+    .post(function(req, res) {
+        var item = new Items({
+            name: req.body.name,
+            description: req.body.description,
+            catalog: req.body.catalog,
+            quantity: req.body.quantity,
+            cost: req.body.cost
+        });
+        
+        item.save(
+            function(err, item) {
+                console.log('created account in DynamoDB');
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send({
+                        message: "Success",
+                        item: item
+                    });
+                }
+            }
+        );
+    })
+     .delete(function(req, res) {
+        Items.destroy(req.body.name, function(err) {
+            if (err)
+                res.send(err);
+            else {
+                res.json({
+                    message: "Success"
+                });
+            }
+        });
+    })
+router.route('/').get(function(req,res){
+res.json("hi");
+});
+router.route('/item')
+    .get(function(req, res) {
+        Items
+            .scan()
+            .limit(20)
+            .loadAll()
+            .exec(function(err, resp) {
+                if (err) {
+                    res.send('Error running scan', err);
+                } else {
+
+                    res.send(resp);
+
+                    if (resp.ConsumedCapacity) {
+
+                        res.send('Scan consumed: ', resp.ConsumedCapacity);
+                    }
+                }
+            });
+    });
+router.route('/:id')
+    .get(function(req, res) {
+        Items
+
+            .scan()
+            .where('catalog').eq(req.params.id)
+            .returnConsumedCapacity()
+
+        .exec(function(err, resp) {
+            if (err) {
+                res.send('Error running scan', err);
+            } else {
+
+                res.send(resp);
+
+                if (resp.ConsumedCapacity) {
+
+                    res.send('Scan consumed: ', resp.ConsumedCapacity);
+                }
+            }
+        });
+    });
+router.route('/items/all')
+.get(function(req, res) {
+    Items
+
+        .scan()
+        
+        .returnConsumedCapacity()
+
+    .exec(function(err, resp) {
+        if (err) {
+            res.send('Error running scan', err);
+        } else {
+
+            res.send(resp.Items);
+
+            if (resp.ConsumedCapacity) {
+
+                res.send('Scan consumed: ', resp.ConsumedCapacity);
+            }
+        }
+    });
+})
+
