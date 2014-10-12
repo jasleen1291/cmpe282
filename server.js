@@ -14,14 +14,14 @@ app.get('/', function(req, res) {
 	var connection = mysql.createConnection(db.db);
 	
 	connection.connect();
-	connection.query(queryString, function(err, rows) {
+	connection.query("Show tables", function(err, rows) {
 	    if (err) throw res.send(err);
 	 
 	    res.send(rows);
 	});
 	}catch(err)
 	{
-		
+		console.log(err);
 	}
   
 });
