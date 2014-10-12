@@ -11,8 +11,7 @@ var db = new AWS.DynamoDB();
 app.get('/', function(req, res) {
 	var mysql =	require('mysql');
 	var db=require('/srv/www/cmpe281/shared/config/opsworks');
-	res.send(db);
-	/*var connection = mysql.createConnection(db.db);
+	var connection = mysql.createConnection(db.db);
 	connection.connect();
 	var queryString =  
 "CREATE TABLE IF NOT EXISTS `transactions` ("+
@@ -29,7 +28,7 @@ app.get('/', function(req, res) {
 	});
 	 
 	connection.end();
-  */
+  
 });
 
 
@@ -37,5 +36,5 @@ app.get('/', function(req, res) {
 
 app.use(express.static('public'));
 
-app.listen(3000);
+app.listen(80);
 console.log('Listening on port 80');
