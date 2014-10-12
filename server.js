@@ -13,8 +13,8 @@ app.get('/', function(req, res) {
 	var db=require('/srv/www/cmpe281/shared/config/opsworks');
 	var connection = mysql.createConnection(db.db);
 	connection.connect();
-	var queryString = "CREATE DATABASE  IF NOT EXISTS `ve_server` USE `ve_server`;"+ 
-"CREATE TABLE `transactions` ("+
+	var queryString = "CREATE DATABASE  IF NOT EXISTS `ve_server`; USE `ve_server`;"+ 
+"CREATE TABLE IF NOT EXISTS `transactions` ("+
 "`id` int(11) DEFAULT NULL,"+
   "`items` text,"+
   "`total` varchar(45) DEFAULT NULL,"+
@@ -23,7 +23,7 @@ app.get('/', function(req, res) {
 ") ENGINE=InnoDB DEFAULT CHARSET=latin1;"+
 
 
-"CREATE TABLE `users` ("+
+"CREATE TABLE IF NOT EXISTS `users` ("+
  " `id` int(11) NOT NULL AUTO_INCREMENT,"+
   "`username` varchar(100) DEFAULT NULL,"+
   "`password` varchar(45) DEFAULT NULL,"+
