@@ -9,7 +9,20 @@ app.use(bodyParser.urlencoded({
 var mysql =	require('mysql');
 var db=require('/srv/www/cmpe281/shared/config/opsworks');
 app.get('/', function(req, res) {
-	res.send(db);
+	try
+	{
+	var connection = mysql.createConnection(db.db);
+	
+	connection.connect();
+	connection.query(queryString, function(err, rows) {
+	    if (err) throw res.send(err);
+	 
+	    res.send(rows);
+	});
+	}catch(err)
+	{
+		
+	}
   
 });
 
