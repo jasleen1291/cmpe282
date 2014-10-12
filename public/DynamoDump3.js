@@ -1,6 +1,111 @@
 module.exports = {
 	RequestItems : {
 		items : [{
+			PutRequest : {
+				Item : {
+					name : {
+						S : 'Starter Boys  Tricot Pants'
+					},
+					catalog : {
+						S : 'Clothing'
+					},
+					description : {
+						S : 'This Starter boys tricot pant features brushed back tricot fabric, which provides extra warmth against the weather; Soft elastic inside waistband for ease of movement, and S-star embroidered logo branding.'
+					},
+					cost : {
+						S : '7.97'
+					},
+					quantity : {
+						N : '10'
+					}
+				}
+			}
+		},
+		{
+			PutRequest : {
+				Item : {
+					name : {
+						S : 'Just My Size Women s Plus-Size Long Sleeve Printed Scoopneck Tee'
+					},
+					catalog : {
+						S : 'Clothing'
+					},
+					description : {
+						S : 'You will look cute in this Just My Size Women s Plus-Size Long Sleeve Printed Scoopneck Tee. This top is made from cotton so it is comfortable, and it is a scoop neck. This is a must have!<br/><strong>Just My Size Womens Plus-Size Long Sleeve Printed Scoopneck Tee:</strong><ul>	<li>Cotton</li><li>Scoop neck</li><li>Comfortable</li><li>Long sleeves</li><li>Machine wash cold</li></ul>'
+							},			
+						cost : {
+						S : '8.97'
+					},
+					quantity : {
+						N : '10'
+					}
+				}
+			}
+		},
+		{
+			PutRequest : {
+				Item : {
+					name : {
+						S : 'Hanes Men s Beefy Long Sleeve T-shirt'
+					},
+					catalog : {
+						S : 'Clothing'
+					},
+					description : {
+						S : '<strong>Hanes Big Men s Beefy Long Sleeve T-shirt&nbsp;</strong>:<ul><li>100% cotton</li>						<li>Crew neck</li>						<li>Long sleeves</li>						<li>Available in assorted colors</li>						<li>Machine wash</li>						</ul>'							
+					},
+					cost : {
+						S : '9.92'
+					},
+					quantity : {
+						N : '10'
+					}
+				}
+			}
+		},
+		{
+			PutRequest : {
+				Item : {
+					name : {
+						S : 'Faded Glory Boys  2 Piece Short Sleeve Graphic Tee And Woven Shirt'
+					},
+					catalog : {
+						S : 'Clothing'
+					},
+					description : {
+						S : 'Get 3 looks, 2 shirts in 1 great price! This Faded Glory boys  short sleeve graphic tee and woven shirt can be separated into 2 shirts, which allows you to mix and match with your kids existing closet. He can also wear the set together for a complete smart look. Choose from assorted options.<br /><strong>Faded Glory Boys 2 Piece Short Sleeve Graphic Tee And Woven Shirt</strong>:	<ul><li>60% cotton, 40% polyester</li><li>1 button up plait woven shirt and 1 graphic tee included</li><li>Short sleeves</li><li>1 front pocket on shirt</li><li>Machine wash cold</li></ul>'
+					},
+					cost : {
+						S : '3.00'
+					},
+					quantity : {
+						N : '10'
+					}
+				}
+			}
+		},
+		{
+			PutRequest : {
+				Item : {
+					name : {
+						S : 'Alexis Taylor Womens Cowl Neck Short Sleeve Dolman Top'
+					},
+					catalog : {
+						S : 'Clothing'
+					},
+					description : {
+						S : 'This Alexis Taylor womens cowl neck short sleeve dolman top is so cute! These tops feature short sleeves, a cowl neck and multiple color choices. These are a must have addition to your closet!'
+							
+					},
+					cost : {
+						S : '35.00'
+					},
+					quantity : {
+						N : '10'
+					}
+				}
+			}
+		} ,{
 					PutRequest : {
 						Item : {
 							name : {
