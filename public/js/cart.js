@@ -36,7 +36,9 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 		var menuItems = Cart.get({
 			id : $scope.id
 		}, function() {
-			//console.log(menuItems);
+			console.log(menuItems);
+			if(!(menuItems).message)
+				{
 			var items = JSON.parse(menuItems.cart.items);
 			var item=menuItems.items;
 			var cost=0.0;
@@ -56,6 +58,7 @@ myApp.controller('addToCartController', function($scope, Cart,CartService,$locat
 			$scope.cartItems = items;
 			CartService.items=items;
 			console.log(items);
+				}
 		});
 		}else{
 			$scope.cartItems =CartService.items;

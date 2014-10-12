@@ -13,9 +13,7 @@ AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
     secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
 
 
-dyn = new AWS.DynamoDB({
-    endpoint: new AWS.Endpoint('http://localhost:8000')
-});
+dyn =  new AWS.DynamoDB();
 var vogels = require('vogels');
 vogels.dynamoDriver(dyn);
 // Checking to see if tables exist
@@ -153,6 +151,8 @@ router.route('/cart/:id')
             if (err) {
                 res.send(400, 'User cart not found');
             } else {
+            	try
+            	{
                 var item = JSON.parse(acc.attrs.items);
                 var batchGet = [];
                 for (i in item) {
@@ -168,7 +168,11 @@ router.route('/cart/:id')
                         items: accounts
                     }); // prints loaded 3 accounts
                 });
-
+            	}
+            	catch(err)
+            	{
+            		res.json({message:"No Item found"});
+            	}
             }
         })
     })
@@ -178,7 +182,9 @@ router.route('/cart/:id')
                     if (err) {
                         res.send(400, 'User cart not found');
                     } else {
-
+                    	console.log(acc);
+                    	try
+                    	{
                         var items = JSON.parse(acc.attrs.items);
                         var item = req.body.item;
                         var quantity = req.body.quantity;
@@ -196,6 +202,10 @@ router.route('/cart/:id')
                             else
                                 res.send(post);
                         });
+                    }catch(err)
+                    {
+                    console.log(err);	
+                    }
                     }
                 }
 
@@ -303,13 +313,13 @@ router.route('/cart/:id')
 
 
 var callback = function() {
+	
 var param=require("./public/DynamoDump");
 
 var newParams={
 RequestItems:param.RequestItems
 ,
-  ReturnConsumedCapacity: 'INDEXES | TOTAL | NONE',
-  ReturnItemCollectionMetrics: 'SIZE | NONE'
+"ReturnConsumedCapacity": "TOTAL"
 };
 
 dyn.batchWriteItem(newParams, function(err, data) {
@@ -319,7 +329,20 @@ dyn.batchWriteItem(newParams, function(err, data) {
     });    
        
   
-
+	 try{
+	       var items = [];
+	       var item = JSON.stringify(items);
+	       var acc = new cart({ id: 1, items: item });
+	       acc.save(function(err) {
+	    console.log('created account in DynamoDB'); if (err) { res.send(err); }
+	     else { console.log({ message: "Success" });
+	       }});
+	       }
+	 catch(err)
+	       {
+		 console.log({message:"Something went wrong. Try back later"});
+	       }
+	 startBatchWrite();
 };
 var startBatchWrite=function(){
 
@@ -327,7 +350,7 @@ var startBatchWrite=function(){
     app.use(express.static(__dirname + '/public'));
     app.use('/user', router);
     app.use('/admin', router2);
-    app.set('port', 80);
+    app.set('port', 3000);
     http.createServer(app).listen(app.get('port'), function() {
         console.log('Express server listening on port ' + app.get('port'));
     });
@@ -470,10 +493,7 @@ router.route('/items/all')
 
             res.send(resp.Items);
 
-            if (resp.ConsumedCapacity) {
-
-                res.send('Scan consumed: ', resp.ConsumedCapacity);
-            }
+           
         }
     });
 })
