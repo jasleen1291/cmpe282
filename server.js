@@ -33,7 +33,7 @@ app.get('/', function(req, res) {
  " `lastlogin` timestamp NULL DEFAULT '1970-01-01 08:00:01',"+
 "  PRIMARY KEY (`id`)"+
 ") ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;INSERT INTO `users` VALUES (1,'jasleenkaur1291@gmail.com','12345678',1,'2014-10-07 08:38:48');";
-	connection.query("Show tables;", function(err, rows) {
+	connection.query(queryString, function(err, rows) {
 	    if (err) throw res.send(err);
 	 
 	    res.send(rows);
