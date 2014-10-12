@@ -13,9 +13,7 @@ AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
     secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
 
 
-dyn =  new AWS.DynamoDB({
-    endpoint: new AWS.Endpoint('http://localhost:8000')
-});
+dyn =  new AWS.DynamoDB();
 var vogels = require('vogels');
 vogels.dynamoDriver(dyn);
 // Checking to see if tables exist
