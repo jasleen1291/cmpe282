@@ -342,7 +342,7 @@ dyn.batchWriteItem(newParams, function(err, data) {
 	       {
 		 console.log({message:"Something went wrong. Try back later"});
 	       }
-	 startBatchWrite();
+	// startBatchWrite();
 };
 var startBatchWrite=function(){
 
