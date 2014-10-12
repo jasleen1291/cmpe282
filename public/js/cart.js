@@ -181,7 +181,7 @@ $scope.checkout = function(name) {
 	
 		CartService.items=[];
 		$scope.updateScope();
-		location.path("/");
+		$location.path("/");
 	});
 };
 });
