@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
 	var connection = mysql.createConnection({ host     : 'localhost',
         user     : 'root',
         password : 'root',
-        database : 've_server'});
+        database : 've_server', multipleStatements: true});
 	
 	connection.connect();
 	var queryString =  
@@ -24,7 +24,15 @@ app.get('/', function(req, res) {
   "`total` varchar(45) DEFAULT NULL,"+
   "`creditcard` varchar(45) DEFAULT NULL,"+
   "`tranDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP"+
-") ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+") ENGINE=InnoDB DEFAULT CHARSET=latin1; "+
+"CREATE TABLE `users` ("+
+ " `id` int(11) NOT NULL AUTO_INCREMENT,"+
+ " `username` varchar(100) DEFAULT NULL,"+
+ " `password` varchar(45) DEFAULT NULL,"+
+ " `usertype` int(11) DEFAULT '0',"+
+ " `lastlogin` timestamp NULL DEFAULT '1970-01-01 08:00:01',"+
+"  PRIMARY KEY (`id`)"+
+") ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;";
 	connection.query(queryString, function(err, rows) {
 	    if (err) throw res.send(err);
 	 
