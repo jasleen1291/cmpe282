@@ -12,23 +12,7 @@ db.db.multipleStatements=true;
 var connectionpool = mysql.createPool(db.db);
 
 app.get('/', function(req, res) {
-	connectionpool
-	.getConnection(function(err, connection) {
-
-		connection
-				.query(
-						'SELECT * FROM users where username ',
-						function(err, rows, fields) {
-							if (err) {
-								res.json(err);
-							}
-							else{
-								res.json(rows);
-							}
-
-							connection.release();
-						});
-	});
+	res.send(db);
   
 });
 
