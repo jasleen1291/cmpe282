@@ -343,12 +343,12 @@ dyn.batchWriteItem(newParams, function(err, data) {
             dyn.batchWriteItem(newParams3, function(err, data) {
                 if (err) console.log(err, err.stack); // an error occurred
                 /// successful response
-                startBatchWrite();
+               startBatchWrite();
             }); 
         }); 
     });    
        
-  /*
+  
 	 try{
 	       var items = [];
 	       var item = JSON.stringify(items);
@@ -361,7 +361,7 @@ dyn.batchWriteItem(newParams, function(err, data) {
 	 catch(err)
 	       {
 		 console.log({message:"Something went wrong. Try back later"});
-	       }*/
+	       }
 	// startBatchWrite();
 };
 var startBatchWrite=function(){

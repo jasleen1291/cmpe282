@@ -26,6 +26,16 @@
 <input type="submit" ng-disabled="addItem.$invalid"></input>
 </form>
 </div>
-<div ng-show="view===1">Add Catalog</div>
+
+
+
+<div ng-show="view===1"><h2 style="text-align:center">Add Catalog</h2>
+<form class="addForms" name="addItem" ng-Controller="CatalogController" ng-submit="addCatalog()">
+<input  ng-model="name" name="name" type="text"  ng-minlength=3 placeholder="Name" required></input><br/><br/>
+<div ng-show="addItem.name.$dirty&&addItem.name.$invalid">Name is a required field with minimum length of 3 characters</br></br></div>
+<textarea  ng-model="Description" placeholder="description"></textarea><br/><br/>
+
+<input type="submit" ng-disabled="addItem.$invalid"></input>
+</form></div>
 </div>
 </div>

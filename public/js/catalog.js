@@ -17,6 +17,12 @@ angular.module('myApp.services').factory('AddItem',function($resource){
 	
 	return abc;
 });
+angular.module('myApp.services').factory('AddCatalog',function($resource){
+	
+	var abc= $resource('/admin/catalog');
+	
+	return abc;
+});
 angular.module('myApp.services').factory('View',function($resource){
 	return $resource('/user/:id', {
 		id : '@_id'
@@ -29,7 +35,7 @@ angular.module('myApp.services').factory('View',function($resource){
 });
 angular.module('myApp.controllers',['ngSanitize']);
 angular.module('myApp.controllers').
-controller('CatalogController',['$scope','Catalog','View','$location','$routeParams','AddItem',function($scope,Catalog,View,$location,$routeParams,AddItem){
+controller('CatalogController',['$scope','Catalog','View','$location','$routeParams','AddItem','AddCatalog','$route',function($scope,Catalog,View,$location,$routeParams,AddItem,AddCatalog,$route){
 	var menuItems=Catalog.get(function(){
 		$scope.menuItems=menuItems;
 		
@@ -51,6 +57,34 @@ controller('CatalogController',['$scope','Catalog','View','$location','$routePar
 		$location.path('/');
 	  }); //saves an entry. Assuming $scope.entry is the Entry object  
 		console.log($scope.Description+"\t"+$scope.cost+"\t"+$scope.quantity+"\t"+$scope.name+"\t"+$scope.catalog.name);
+	}
+	$scope.addCatalog=function()
+	{
+		var exists=false;
+		
+		for(i=0;i<$scope.menuItems.Items.length;i++)
+			{
+			if($scope.menuItems.Items[i].name.toUpperCase()===$scope.name.toUpperCase())
+				{
+				alert("Catalog of the same name already exists");
+				exists=true;
+				}
+			}
+		console.log(exists);
+		if(!exists)
+			{
+			var item = new AddCatalog({
+	            name: $scope.name,
+	            description: $scope.Description
+	         
+	        });
+			AddCatalog.save(item, function(res) {
+			    //data saved. do something here.
+				alert(res.message);
+				$location.path('/');
+				$route.reload();
+			  });
+			}
 	}
 	//console.log($routeParams);
 	var menu=View.get({id:$scope.catalog},function(){

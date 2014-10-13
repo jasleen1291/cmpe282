@@ -9,8 +9,8 @@ app.use(bodyParser.urlencoded({
 var mysql = require('mysql');
 require('./app/routes')(app); // configure our routes
 var AWS = require('aws-sdk');
-AWS.config.update({ accessKeyId:process.env.AWSAccessKeyId ,
-    secretAccessKey:process.env.AWSSecretKey ,region: 'us-west-1'});
+AWS.config.update({ accessKeyId:"a",
+    secretAccessKey:"key" ,region: 'us-west-1'});
 
 
 dyn = new AWS.DynamoDB({
@@ -148,11 +148,13 @@ router.route('/cart/:id')
     	});
 	res.json({message:"Checked Out"});
 })
-    .get(function(req, res) {
+      .get(function(req, res) {
         cart.get(req.params.id, function(err, acc) {
             if (err) {
                 res.send(400, 'User cart not found');
             } else {
+            	try
+            	{
                 var item = JSON.parse(acc.attrs.items);
                 var batchGet = [];
                 for (i in item) {
@@ -168,7 +170,11 @@ router.route('/cart/:id')
                         items: accounts
                     }); // prints loaded 3 accounts
                 });
-
+            	}
+            	catch(err)
+            	{
+            		res.json({message:"No Item found"});
+            	}
             }
         })
     })
