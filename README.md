@@ -1,6 +1,6 @@
 # Ecommerce prototype using Node.js
 
-# Basic Functionalities 
+## Basic Functionalities 
 ● Signup­ A functionality for users to signup using their first name, last name,etc. 
 
 ● Login­ To use the store, the users need to signin first using the credentials supplied during signup.
