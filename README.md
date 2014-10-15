@@ -1,4 +1,4 @@
-
+# Ecommerce prototype using Node.js
 
 # Basic Functionalities 
 ● Signup­ A functionality for users to signup using their first name, last name,etc. 
